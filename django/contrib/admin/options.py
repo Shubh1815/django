@@ -52,6 +52,7 @@ from django.views.generic import RedirectView
 
 IS_POPUP_VAR = '_popup'
 TO_FIELD_VAR = '_to_field'
+OBJECTS_HISTORY_PER_PAGE = 10
 
 
 HORIZONTAL, VERTICAL = 1, 2
@@ -1942,12 +1943,14 @@ class ModelAdmin(BaseModelAdmin):
             object_id=unquote(object_id),
             content_type=get_content_type_for_model(model)
         ).select_related().order_by('action_time')
+        paginator = self.get_paginator(request, action_list, OBJECTS_HISTORY_PER_PAGE)
+        page = paginator.get_page(request.GET.get('page', 1))
 
         context = {
             **self.admin_site.each_context(request),
             'title': _('Change history: %s') % obj,
             'subtitle': None,
-            'action_list': action_list,
+            'page': page,
             'module_name': str(capfirst(opts.verbose_name_plural)),
             'object': obj,
             'opts': opts,

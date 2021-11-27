@@ -15,7 +15,7 @@
 <div id="content-main">
 <div class="module">
 
-{% if action_list %}
+{% if page.object_list %}
     <table id="change-history">
         <thead>
         <tr>
@@ -25,7 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for action in action_list %}
+        {% for action in page.object_list %}
         <tr>
             <th scope="row">{{ action.action_time|date:"DATETIME_FORMAT" }}</th>
             <td>{{ action.user.get_username }}{% if action.user.get_full_name %} ({{ action.user.get_full_name }}){% endif %}</td>
@@ -33,6 +33,33 @@
         </tr>
         {% endfor %}
         </tbody>
+        {% if page.has_other_pages %}
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <div class="pagination-actions">
+                            {% if page.has_previous %}
+                                <a id="first-page" href="?page=1">First</a>
+                                <a id="previous-page" href="?page={{page.previous_page_number}}">Previous</a>
+                            {% else %}
+                                <a id="first-page" class="disable">First</a>
+                                <a id="previous-page" class="disable">Previous</a>
+                            {% endif %}
+                            <span>
+                                Page <b>{{ page.number }}</b> of <b>{{ page.paginator.num_pages }}</b>
+                            </span>
+                            {% if page.has_next %}
+                                <a id="next-page" href="?page={{page.next_page_number}}">Next</a>
+                                <a id="last-page" href="?page={{ page.paginator.num_pages }}">Last</a>
+                            {% else %}
+                                <a id="next-page" class="disable">Next</a>
+                                <a id="last-page" class="disable">Last</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        {% endif %}
     </table>
 {% else %}
     <p>{% translate 'This object doesn’t have a change history. It probably wasn’t added via this admin site.' %}</p>

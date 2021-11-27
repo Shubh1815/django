@@ -782,6 +782,40 @@ table#change-history tbody th {
     width: 16em;
 }
 
+table#change-history .pagination-actions {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+table#change-history .pagination-actions a ,
+table#change-history .pagination-actions span {
+    background-color: var(--button-bg);
+    border: 1px solid var(--hairline-color);
+    color: var(--button-fg);
+    font-size: 13px;
+    padding: 10px;
+    text-align: center;
+}
+
+table#change-history .pagination-actions a {
+    text-decoration: none;
+    width: 50px;
+}
+
+table#change-history .pagination-actions a:hover {
+    background-color: var(--button-hover-bg);
+}
+
+table#change-history .pagination-actions a.disable {
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+table#change-history .pagination-actions span {
+    width: 75px;
+}
+
 /* PAGE STRUCTURE */
 
 #container {
